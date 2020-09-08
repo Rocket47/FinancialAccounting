@@ -19,8 +19,8 @@ namespace FinancialAccounting.Controllers
             db = context;
             if (!db.Users.Any())
             {
-                db.Users.Add(new User { income = "1000$", expence = "700$" });
-                db.Users.Add(new User { income = "1500$", expence = "1000$" });
+                db.Users.Add(new User { Income = "1000$", Expence = "700$" });
+                db.Users.Add(new User { Income = "1500$", Expence = "1000$" });
                 db.SaveChanges();
             }
         }
@@ -42,8 +42,8 @@ namespace FinancialAccounting.Controllers
             }
             return new ObjectResult(user);
         }
-
-        // POST api/<OperationsController>
+        
+        // POST api/users
         [HttpPost]
         public async Task<ActionResult<User>> Post(User user)
         {
