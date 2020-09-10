@@ -23,9 +23,7 @@ namespace FinancialAccounting
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionAddress = "Server=RTSENOV-D1\\SQLEXPRESS;Database=userdbstore;Trusted_Connection=True;";
-
-            services.AddDbContext<UsersContext>(options => options.UseSqlServer(connectionAddress));
+            services.AddDbContext<UsersContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
             services.AddControllers();
         }
 
