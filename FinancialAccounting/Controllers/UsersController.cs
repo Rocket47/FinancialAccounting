@@ -19,8 +19,8 @@ namespace FinancialAccounting.Controllers
             db = context;
             if (!db.Users.Any())
             {
-                db.Users.Add(new User { Description = "Buy bike", Sum = 700.00,  Date = "09.09.2020"});
-                db.Users.Add(new User { Description = "Get payment", Sum = 1500.00, Date = "08.09.2020" });
+                db.Users.Add(new User { Description = "Buy bike", Sum = 700.00,  Date = "09.09.2020", Operation = "0"});
+                db.Users.Add(new User { Description = "Get payment", Sum = 1500.00, Date = "08.09.2020", Operation = "1" });
                 db.SaveChanges();
             }
         }

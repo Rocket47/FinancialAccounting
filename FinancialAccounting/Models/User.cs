@@ -17,5 +17,8 @@ namespace FinancialAccounting
 
         [Column(TypeName = "nvarchar(100)")]      
         public string Date { get; set; }
+
+        [Column(TypeName = "nvarchar(100)")]
+        public string Operation { get; set; }
     }
 }
