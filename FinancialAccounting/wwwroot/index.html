@@ -13,7 +13,7 @@
         <div class="form-group col-md-5">
             <label for="type">Тип операции:</label>
             <p><input name="Income" type="radio" checked id="operationTypeIncome" value="Expence"> Доход</p>
-            <p><input name="Income" type="radio" id="operationTypeExpence"value="Expence"> Расход</p>
+            <p><input name="Income" type="radio" id="operationTypeExpence" value="Expence"> Расход</p>
         </div>
         <div class="form-group col-md-5">
             <label for="description">Наименование:</label>
@@ -25,7 +25,7 @@
         </div>
         <div class="form-group col-md-5">
             <label for="date">Дата операции:</label>
-            
+
             <input type="date" id="date" name="begin"
                    placeholder="dd-mm-yyyy" value=""
                    min="1997-01-01" max="2030-12-31">
@@ -39,7 +39,7 @@
         <thead><tr><th>№</th><th>Наименование</th><th>Сумма</th><th>Дата</th><th>Операция</th><th></th></tr></thead>
         <tbody>
         </tbody>
-    </table>   
+    </table>
     <script>
         // Получение всех пользователей
         async function GetUsers() {
@@ -75,14 +75,16 @@
             }
         }
         // Добавление пользователя
-        async function CreateUser(userName, userAge) {
+        async function CreateUser(descriptionUser, sumUser, dateUser, operationUser) {
 
             const response = await fetch("api/users", {
                 method: "POST",
                 headers: { "Accept": "application/json", "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    name: userName,
-                    age: parseInt(userAge, 10)
+                    description: descriptionUser,
+                    sum: sumUser,
+                    date: dateUser,
+                    operation: operationUser
                 })
             });
             if (response.ok === true) {
@@ -143,7 +145,6 @@
             const sumTd = document.createElement("td");
             sumTd.append(user.sum);
             tr.append(sumTd);
-
             const dateTd = document.createElement("td");
             dateTd.append(user.date);
             tr.append(dateTd);
@@ -153,13 +154,15 @@
                 typeTd.append("Расход")
                 typeTd.bgColor = "Red";
             }
-            else
-            {
+            else {
                 typeTd.append("Доход")
                 typeTd.bgColor = "Green";
             }
             tr.append(typeTd);
-            
+
+            const ageTd = document.createElement("td");
+            ageTd.append(user.sum);
+            tr.append(ageTd);
 
             const linksTd = document.createElement("td");
 
@@ -201,20 +204,14 @@
             e.preventDefault();
             const form = document.forms["userForm"];
             const id = form.elements["id"].value;
-            const operation = document.getElementById('operationTypeIncome').name;
+            const operation = document.getElementById('operationTypeIncome').name === "Income" ? "1" : "0";
             const description = document.getElementById('name').value;
             const sum = form.elements["sum"].value;
             const date = form.elements["date"].value;
-            if (operation === "Income") {
-                operation = "1"
-                continue
-            }
-            else {
-                operation = "0"
-                continue
-            }
+            const name = form.elements["Income"].value;
+            
             if (id == 0)
-                CreateUser(name, age);
+                CreateUser(description, sum, date, operation);
             else
                 EditUser(id, name, age);
         });
