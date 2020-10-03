@@ -27,8 +27,8 @@
             <label for="date">Дата операции:</label>
 
             <input type="date" id="date" name="begin"
-                   placeholder="dd-mm-yyyy" value=""
-                   min="1997-01-01" max="2030-12-31">
+                   placeholder="dd.mm.yyyy" value=""
+                   min="01.01.1997" max="31.12.2030">
         </div>
         <div class="panel-body">
             <button type="submit" id="submit" class="btn btn-primary">Сохранить</button>
@@ -94,14 +94,15 @@
             }
         }
         // Изменение пользователя
-        async function EditUser(userId, userName, userAge) {
+        async function EditUser(descriptionUser, sumUser, dateUser, operationUser) {
             const response = await fetch("api/users", {
                 method: "PUT",
                 headers: { "Accept": "application/json", "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    id: parseInt(userId, 10),
-                    name: userName,
-                    age: parseInt(userAge, 10)
+                    description: descriptionUser,
+                    sum: sumUser,
+                    date: dateUser,
+                    operation: operationUser
                 })
             });
             if (response.ok === true) {
@@ -160,10 +161,6 @@
             }
             tr.append(typeTd);
 
-            const ageTd = document.createElement("td");
-            ageTd.append(user.sum);
-            tr.append(ageTd);
-
             const linksTd = document.createElement("td");
 
             const editLink = document.createElement("a");
@@ -206,7 +203,7 @@
             const id = form.elements["id"].value;
             const operation = document.getElementById('operationTypeIncome').name === "Income" ? "1" : "0";
             const description = document.getElementById('name').value;
-            const sum = form.elements["sum"].value;
+            var sum = parseFloat(form.elements["sum"].value);
             const date = form.elements["date"].value;
             const name = form.elements["Income"].value;
             
