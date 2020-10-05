@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Отчет за день</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <h2>Отчет расход/доход за день</h2>
+    <form name="dayReportForm">
+        <input type="hidden" name="id" value="0" />
+        <label for="choose-date">Выберите день для отчетности:</label>
+
+        <input type="date" id="choose-date" name="trip-start"
+               placeholder="dd.mm.yyyy" value=""
+               min="01.01.1997" max="31.12.2030">
+
+        <button type="submit" id="get-day-report" class="btn-get-day-report">Получить отчет</button>
+    </form>
+    <table class="table table-condensed table-striped  col-md-3">
+        <thead><tr><th>Наименование</th><th>Расход</th><th>Наименование</th><th>Доход</th></tr></thead>
+        <tbody>
+        </tbody>
+    </table>
+</body>
+</html>

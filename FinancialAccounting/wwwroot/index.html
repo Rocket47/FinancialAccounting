@@ -33,10 +33,12 @@
         <div class="panel-body">
             <button type="submit" id="submit" class="btn btn-primary">Сохранить</button>
             <a id="reset" class="btn btn-primary">Сбросить</a>
+            <button onclick="location.href='../dayreport.html'" type="button">Отчет за день</button>                
+            <button type="submit" id="monthreport" class="btn-month-report">Отчет за месяц</button>
         </div>
     </form>
-    <table class="table table-condensed table-striped  col-md-6">
-        <thead><tr><th>№</th><th>Наименование</th><th>Сумма</th><th>Дата</th><th>Операция</th><th></th></tr></thead>
+    <table class="table table-condensed table-striped  col-md-8">
+        <thead><tr><th>Наименование</th><th>Сумма</th><th>Дата</th><th>Операция</th><th></th></tr></thead>
         <tbody>
         </tbody>
     </table>
@@ -135,9 +137,7 @@
             const tr = document.createElement("tr");
             tr.setAttribute("data-rowid", user.id);
 
-            const idTd = document.createElement("td");
-            idTd.append(user.id);
-            tr.append(idTd);
+            
 
             const nameTd = document.createElement("td");
             nameTd.append(user.description);
