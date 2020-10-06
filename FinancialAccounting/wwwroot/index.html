@@ -33,8 +33,8 @@
         <div class="panel-body">
             <button type="submit" id="submit" class="btn btn-primary">Сохранить</button>
             <a id="reset" class="btn btn-primary">Сбросить</a>
-            <button onclick="location.href='../dayreport.html'" type="button">Отчет за день</button>                
-            <button type="submit" id="monthreport" class="btn-month-report">Отчет за месяц</button>
+            <button onclick="location.href='../dayreport.html'" type="button">Отчет за день</button>
+            <button onclick="location.href='../monthreport.html'" type="button">Отчет за месяц</button>
         </div>
     </form>
     <table class="table table-condensed table-striped  col-md-8">
@@ -201,7 +201,7 @@
             e.preventDefault();
             const form = document.forms["userForm"];
             const id = form.elements["id"].value;
-            const operation = document.getElementById('operationTypeIncome').name === "Income" ? "1" : "0";
+            const operation = document.getElementById('operationTypeIncome').value === "Income" ? "1" : "0";
             const description = document.getElementById('name').value;
             var sum = parseFloat(form.elements["sum"].value);
             const date = form.elements["date"].value;

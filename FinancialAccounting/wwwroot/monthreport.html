@@ -7,14 +7,14 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
-    <h2>Отчет расход/доход за день</h2>
+    <h2>Отчет расход/доход за месяц</h2>
     <form name="dayReportForm">
         <input type="hidden" name="id" value="0" />
-        <label for="choose-date">Выберите день для отчетности:</label>
+        <label for="choose-date">Выберите месяц для отчетности:</label>
 
-        <input type="date" id="choose-date" name="trip-start"
+        <input type="month" id="choose-month" name="start"
                placeholder="dd.mm.yyyy" value=""
-               min="01.01.1997" max="31.12.2030">
+               min="1997-01" max="2030-01">
 
         <button type="submit" id="get-day-report" class="btn-get-day-report">Получить отчет</button>
     </form>
@@ -27,7 +27,10 @@
     <script>
         // Получение всех пользователей
         async function GetSumValue() {
-            const url = "/api/users/dayreport/" + document.getElementById("choose-date").value;
+            var date = document.getElementById("choose-month").value;
+            const year = date.split('-')[0];
+            const month = date.split('-')[1];
+            const url = `/api/users/monthreport/${year}/${month}`;
             // отправляет запрос и получаем ответ
             const response = await fetch(url, {
                 method: "GET",
@@ -38,23 +41,23 @@
                 // получаем данные
                 const users = await response.json();
                 let rows = document.querySelector("tbody");
-                rows.append(row(users));                
+                rows.append(row(users));
             }
         }
-        
+
         function row(user) {
 
             const tr = document.createElement("tr");
-            tr.setAttribute("data-rowid", user.id);            
+            tr.setAttribute("data-rowid", user.id);
             tr.append(document.getElementById("choose-date").value);
-            
+
             const sumExpence = document.createElement("td");
             sumExpence.append(user[0]);
-            tr.append(sumExpence);   
+            tr.append(sumExpence);
 
             const sumIncome = document.createElement("td");
             sumIncome.append(user[1]);
-            tr.append(sumIncome);       
+            tr.append(sumIncome);
             return tr;
         }
 
@@ -62,8 +65,8 @@
             e.preventDefault();
             GetSumValue();
         });
-        
-        
+
+
     </script>
 </body>
 </html>

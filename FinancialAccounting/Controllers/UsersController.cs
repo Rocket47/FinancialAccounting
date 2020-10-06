@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.EntityClient;
 
 
 namespace FinancialAccounting.Controllers
@@ -16,13 +19,7 @@ namespace FinancialAccounting.Controllers
         UsersContext db;
         public UsersController(UsersContext context)
         {
-            db = context;
-            if (!db.Users.Any())
-            {
-                db.Users.Add(new User { Description = "Buy bike", Sum = 700.00,  Date = "09.09.2020", Operation = "0"});
-                db.Users.Add(new User { Description = "Get payment", Sum = 1500.00, Date = "08.09.2020", Operation = "1" });
-                db.SaveChanges();
-            }
+            db = context;            
         }
         // GET: api/<OperationsController>
         [HttpGet]
@@ -42,7 +39,56 @@ namespace FinancialAccounting.Controllers
             }
             return new ObjectResult(user);
         }
-        
+
+        // GET api/<OperationsController>/2020-10-06
+        [HttpGet("{dayreport}/{date}")]
+        public async Task<ActionResult<IEnumerable<int>>> Get(string date)
+        {
+            int sumIncome = 0;
+            int sumExpence = 0;
+            List<User> listUsers = await db.Users.Where(x => x.Date == date).ToListAsync();
+            List<int> resultList = new List<int>();
+            foreach (User tmp in listUsers)
+            {
+                if (tmp.Operation.Equals("1"))
+                {
+                    sumIncome += Convert.ToInt32(tmp.Sum);
+                }
+                if (tmp.Operation.Equals("0"))
+                {
+                    sumExpence += Convert.ToInt32(tmp.Sum);
+                }
+            }
+            resultList.Add(sumExpence);
+            resultList.Add(sumIncome);            
+            return resultList;
+        }
+
+        [HttpGet("{monthreport}/{year}/{month}")]
+        public async Task<ActionResult<IEnumerable<int>>> Get(string year, string month)
+        {
+            int sumIncome = 0;
+            int sumExpence = 0;
+            List<User> listUsers = await db.Users.
+                Where(x => System.Data.Entity.SqlServer.SqlFunctions.DatePart("YEAR", x.Date).Value == 1))
+            List<int> resultList = new List<int>();
+            foreach (User tmp in listUsers)
+            {
+                if (tmp.Operation.Equals("1"))
+                {
+                    sumIncome += Convert.ToInt32(tmp.Sum);
+                }
+                if (tmp.Operation.Equals("0"))
+                {
+                    sumExpence += Convert.ToInt32(tmp.Sum);
+                }
+            }
+            resultList.Add(sumExpence);
+            resultList.Add(sumIncome);
+            return resultList;
+        }
+
+
         // POST api/users
         [HttpPost]
         public async Task<ActionResult<User>> Post(User user)
