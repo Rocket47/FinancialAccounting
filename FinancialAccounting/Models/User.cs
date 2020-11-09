@@ -13,10 +13,9 @@ namespace FinancialAccounting
         public string Description { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
-        public double Sum {get; set;} 
+        public double Sum { get; set; }
 
-        [Column(TypeName = "nvarchar(100)")]      
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
         public string Operation { get; set; }

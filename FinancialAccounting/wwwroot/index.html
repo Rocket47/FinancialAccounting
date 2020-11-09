@@ -12,8 +12,8 @@
         <input type="hidden" name="id" value="0" />
         <div class="form-group col-md-5">
             <label for="type">Тип операции:</label>
-            <p><input name="Income" type="radio" checked id="operationTypeIncome" value="Expence"> Доход</p>
-            <p><input name="Income" type="radio" id="operationTypeExpence" value="Expence"> Расход</p>
+            <p><input name="Income" type="radio"  id="operationTypeIncome" value="Income"> Доход</p>
+            <p><input name="Expence" type="radio" id="operationTypeExpense" value="Expence"> Расход</p>
         </div>
         <div class="form-group col-md-5">
             <label for="description">Наименование:</label>
@@ -136,9 +136,7 @@
 
             const tr = document.createElement("tr");
             tr.setAttribute("data-rowid", user.id);
-
             
-
             const nameTd = document.createElement("td");
             nameTd.append(user.description);
             tr.append(nameTd);
@@ -147,7 +145,9 @@
             sumTd.append(user.sum);
             tr.append(sumTd);
             const dateTd = document.createElement("td");
-            dateTd.append(user.date);
+            var date = new Date(user.date);
+            date =  date.yyyymmdd();
+            dateTd.append(date);
             tr.append(dateTd);
 
             const typeTd = document.createElement("td");
@@ -201,7 +201,14 @@
             e.preventDefault();
             const form = document.forms["userForm"];
             const id = form.elements["id"].value;
-            const operation = document.getElementById('operationTypeIncome').value === "Income" ? "1" : "0";
+            let operation = "0";
+            const rbs = document.querySelectorAll('input[name="Income"]');              
+            for (const rb of rbs) {
+                if (rb.checked && rb.value === "Income") {
+                    operation = "1";                    
+                    break;
+                }               
+            }
             const description = document.getElementById('name').value;
             var sum = parseFloat(form.elements["sum"].value);
             const date = form.elements["date"].value;
@@ -216,6 +223,16 @@
         // загрузка пользователей
         GetUsers();
 
+
+        Date.prototype.yyyymmdd = function () {
+            var mm = this.getMonth() + 1; // getMonth() is zero-based
+            var dd = this.getDate();
+
+            return [this.getFullYear(),
+            (mm > 9 ? '' : '0') + mm,
+            (dd > 9 ? '' : '0') + dd
+            ].join('-');
+        };
     </script>
 </body>
 </html>

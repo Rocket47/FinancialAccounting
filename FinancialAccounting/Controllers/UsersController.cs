@@ -5,10 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.EntityClient;
-
+using System.Data.Entity.SqlServer;
+using Microsoft.Data.SqlClient.Server;
+using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
+//using System.Data.Entity;
 
 namespace FinancialAccounting.Controllers
 {
@@ -46,7 +47,12 @@ namespace FinancialAccounting.Controllers
         {
             int sumIncome = 0;
             int sumExpence = 0;
-            List<User> listUsers = await db.Users.Where(x => x.Date == date).ToListAsync();
+            string[] dateArray = date.Split(new string[] { "-" }, StringSplitOptions.RemoveEmptyEntries);
+            int years = Convert.ToInt32(dateArray[0]);
+            int months = Convert.ToInt32(dateArray[1]);
+            int days = Convert.ToInt32(dateArray[2]);
+            DateTime dateTime = new DateTime(years, months, days);
+            List <User> listUsers = await db.Users.Where(x => x.Date == dateTime.Date).ToListAsync();
             List<int> resultList = new List<int>();
             foreach (User tmp in listUsers)
             {
@@ -68,9 +74,11 @@ namespace FinancialAccounting.Controllers
         public async Task<ActionResult<IEnumerable<int>>> Get(string year, string month)
         {
             int sumIncome = 0;
-            int sumExpence = 0;
-            List<User> listUsers = await db.Users.
-                Where(x => System.Data.Entity.SqlServer.SqlFunctions.DatePart("YEAR", x.Date).Value == 1))
+            int sumExpence = 0;            
+            int years = Convert.ToInt32(year);
+            int months = Convert.ToInt32(month);            
+            DateTime dateTime = new DateTime(years, months, 1);          
+            List<User> listUsers = await db.Users.Where(x => x.Date.Year == dateTime.Year).ToListAsync();
             List<int> resultList = new List<int>();
             foreach (User tmp in listUsers)
             {
@@ -96,8 +104,7 @@ namespace FinancialAccounting.Controllers
             if (user == null)
             {
                 return BadRequest();
-            }
-
+            }            
             db.Users.Add(user);
             await db.SaveChangesAsync();
             return Ok(user);
