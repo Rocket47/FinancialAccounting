@@ -5,11 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity.SqlServer;
-using Microsoft.Data.SqlClient.Server;
-using System.Globalization;
-using System.Security.Cryptography.X509Certificates;
-//using System.Data.Entity;
 
 namespace FinancialAccounting.Controllers
 {
@@ -17,7 +12,7 @@ namespace FinancialAccounting.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        UsersContext db;
+        readonly UsersContext db;
         public UsersController(UsersContext context)
         {
             db = context;            

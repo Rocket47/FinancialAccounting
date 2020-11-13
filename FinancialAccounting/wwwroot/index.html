@@ -70,10 +70,9 @@
             if (response.ok === true) {
                 const user = await response.json();
                 const form = document.forms["userForm"];
-                form.elements["id"].value = user.id;
-                form.elements["Income"].Income = user.Income;
-                form.elements["Expence"].value = user.Expence;
-                form.elements["Description"].value = user.Description;
+                form.elements["id"].value = user.id;               
+                form.elements["sum"].value = user.sum;
+                form.elements["date"].value = user.date;
             }
         }
         // Добавление пользователя
@@ -96,17 +95,18 @@
             }
         }
         // Изменение пользователя
-        async function EditUser(descriptionUser, sumUser, dateUser, operationUser) {
-            const response = await fetch("api/users", {
+        async function EditUser(id, descriptionUser, sumUser, dateUser, operationUser) {
+            const response = await fetch("api/users/" + id, {
                 method: "PUT",
                 headers: { "Accept": "application/json", "Content-Type": "application/json" },
                 body: JSON.stringify({
+                    id: parseInt(id, 10),
                     description: descriptionUser,
                     sum: sumUser,
                     date: dateUser,
                     operation: operationUser
                 })
-            });
+            });          
             if (response.ok === true) {
                 const user = await response.json();
                 reset();
@@ -212,12 +212,13 @@
             const description = document.getElementById('name').value;
             var sum = parseFloat(form.elements["sum"].value);
             const date = form.elements["date"].value;
+            const dateEdit = form.elements["date"].value + "T00:00:00";
             const name = form.elements["Income"].value;
             
             if (id == 0)
                 CreateUser(description, sum, date, operation);
             else
-                EditUser(id, name, age);
+                EditUser(id, description, sum, dateEdit, operation);
         });
 
         // загрузка пользователей
